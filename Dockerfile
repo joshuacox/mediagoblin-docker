@@ -25,6 +25,7 @@ RUN apt-get update \
 && mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin:www-data /srv/mediagoblin.example.org \
 && cd /srv/mediagoblin.example.org \
 && sudo -u mediagoblin git clone http://git.savannah.gnu.org/r/mediagoblin.git \
+&& cd /srv/mediagoblin.example.org/mediagoblin \
 && sudo -u mediagoblin git checkout stable \
 && sudo -u mediagoblin git submodule sync \
 && sudo -u mediagoblin git submodule update --force --init --recursive \
