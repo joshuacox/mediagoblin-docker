@@ -39,19 +39,21 @@ RUN apt-get update \
 # Video plugin
 #
 && apt-get install -y python-gi python3-gi \
-    gstreamer1.0-tools \
-    gir1.2-gstreamer-1.0 \
-    gir1.2-gst-plugins-base-1.0 \
-    gstreamer1.0-plugins-good \
-    gstreamer1.0-plugins-ugly \
-    gstreamer1.0-plugins-bad \
-    gstreamer1.0-libav \
-    python-gst-1.0
+  gstreamer1.0-tools \
+  gir1.2-gstreamer-1.0 \
+  gir1.2-gst-plugins-base-1.0 \
+  gstreamer1.0-plugins-good \
+  gstreamer1.0-plugins-ugly \
+  gstreamer1.0-plugins-bad \
+  gstreamer1.0-libav \
+  python-gst-1.0 \
 && cd /srv/mediagoblin.example.org/mediagoblin && echo '[[mediagoblin.media_types.video]]' | sudo -u mediagoblin tee -a mediagoblin_local.ini \
 #
 # Audio plugin
 #
-&& apt-get install -y python-gst-1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly gstreamer1.0-libav libsndfile1-dev libasound2-dev libgstreamer-plugins-base1.0-dev python-numpy python-scipy \
+&& apt-get install -y python-gst-1.0 gstreamer1.0-plugins-base \
+  gstreamer1.0-plugins-bad gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly \
+  gstreamer1.0-libav libsndfile1-dev libasound2-dev libgstreamer-plugins-base1.0-dev python-numpy python-scipy \
 && cd /srv/mediagoblin.example.org/mediagoblin && echo '[[mediagoblin.media_types.audio]]' | sudo -u mediagoblin tee -a mediagoblin_local.ini \
 && cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin bin/pip install scikits.audiolab \
 #
@@ -60,16 +62,16 @@ RUN apt-get update \
 && apt-get install -y poppler-utils \
 && cd /srv/mediagoblin.example.org/mediagoblin && echo '[[mediagoblin.media_types.pdf]]' | sudo -u mediagoblin tee -a mediagoblin_local.ini \
 # cleanup
-&& apt-get remove -y git cmake linux-headers-amd64 build-essential libssl-dev libboost-dev libboost-thread-dev libboost-system-dev libsqlite3-dev libcurl4-openssl-dev libusb-dev zlib1g-dev libudev-dev && \
-   apt-get autoremove -y && \ 
-   apt-get clean && \
-   rm -rf /var/lib/apt/lists/*
-#
-#
+&& apt-get remove -y git cmake linux-headers-amd64 build-essential \
+  libssl-dev libboost-dev libboost-thread-dev libboost-system-dev \
+  libsqlite3-dev libcurl4-openssl-dev libusb-dev zlib1g-dev libudev-dev \
+&& apt-get autoremove -y \ 
+&& apt-get clean \
+&& rm -rf /var/lib/apt/lists/* \
+&& rm /etc/nginx/sites-enabled/default \
+&& echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 #
 ADD docker-nginx.conf /etc/nginx/sites-enabled/nginx.conf
-RUN rm /etc/nginx/sites-enabled/default
-&& echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 EXPOSE 80
 ADD docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
