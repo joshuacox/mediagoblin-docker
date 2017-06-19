@@ -19,10 +19,10 @@ FROM debian:jessie
 RUN apt-get update \
 && apt-get install -y git-core python python-dev python-lxml python-imaging python-virtualenv npm nodejs-legacy automake nginx \
 && apt-get install -y sudo \
-&& useradd -c "GNU MediaGoblin system account" -d /var/lib/mediagoblin -m -r -g www-data mediagoblin
-&& groupadd mediagoblin && sudo usermod --append -G mediagoblin mediagoblin
-&& mkdir -p /var/log/mediagoblin && chown -hR mediagoblin:mediagoblin /var/log/mediagoblin
-&& mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin:www-data /srv/mediagoblin.example.org
+&& useradd -c "GNU MediaGoblin system account" -d /var/lib/mediagoblin -m -r -g www-data mediagoblin \
+&& groupadd mediagoblin && sudo usermod --append -G mediagoblin mediagoblin \
+&& mkdir -p /var/log/mediagoblin && chown -hR mediagoblin:mediagoblin /var/log/mediagoblin \
+&& mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin:www-data /srv/mediagoblin.example.org \
 && cd /srv/mediagoblin.example.org \
 && sudo -u mediagoblin git clone http://git.savannah.gnu.org/r/mediagoblin.git \
 && sudo -u mediagoblin git checkout stable \
