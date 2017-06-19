@@ -45,8 +45,9 @@ RUN apt-get update \
 && groupadd mediagoblin && sudo usermod --append -G mediagoblin mediagoblin \
 && mkdir -p /var/log/mediagoblin && chown -hR mediagoblin:mediagoblin /var/log/mediagoblin \
 && mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin:www-data /srv/mediagoblin.example.org \
-&& mkdir -p /root/.npm \
+&& mkdir -p /root/.npm/bower \
 && chown -R mediagoblin. /root/.npm \
+&& chown -R mediagoblin. /root \
 && cd /srv/mediagoblin.example.org \
 && sudo -u mediagoblin git clone http://git.savannah.gnu.org/r/mediagoblin.git \
 && cd /srv/mediagoblin.example.org/mediagoblin \
