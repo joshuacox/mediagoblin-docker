@@ -45,35 +45,35 @@ RUN apt-get update \
 && groupadd mediagoblin && sudo usermod --append -G mediagoblin mediagoblin \
 && mkdir -p /var/log/mediagoblin && chown -hR mediagoblin:mediagoblin /var/log/mediagoblin \
 && mkdir -p /srv/mediagoblin.example.org && chown -hR mediagoblin:www-data /srv/mediagoblin.example.org \
+&& mkdir -p /root/.npm \
+&& chown -R mediagoblin. /root/.npm \
 && cd /srv/mediagoblin.example.org \
-&& git clone http://git.savannah.gnu.org/r/mediagoblin.git \
+&& sudo -u mediagoblin git clone http://git.savannah.gnu.org/r/mediagoblin.git \
 && cd /srv/mediagoblin.example.org/mediagoblin \
-&& git checkout stable \
-&& git submodule sync \
-&& git submodule update --force --init --recursive \
-&& ./bootstrap.sh \
-&& ./configure –with-python3 \
-&& make \
-&& bin/easy_install flup \
-&& ln -s /var/lib/mediagoblin user_dev \
-&& bash -c 'cp -av mediagoblin.ini mediagoblin_local.ini && cp -av paste.ini paste_local.ini' \
-&& perl -pi -e 's|.*sql_engine = .*|sql_engine = sqlite:////var/lib/mediagoblin/mediagoblin.db|' mediagoblin_local.ini \
-&& cd /srv/mediagoblin.example.org/mediagoblin \
+&& sudo -u mediagoblin git checkout stable \
+&& sudo -u mediagoblin git submodule sync \
+&& sudo -u mediagoblin git submodule update --force --init --recursive \
+&& sudo -u mediagoblin ./bootstrap.sh \
+&& sudo -u mediagoblin ./configure –with-python3 \
+&& sudo -u mediagoblin make \
+&& sudo -u mediagoblin bin/easy_install flup \
+&& sudo -u mediagoblin ln -s /var/lib/mediagoblin user_dev \
+&& sudo -u mediagoblin bash -c 'cp -av mediagoblin.ini mediagoblin_local.ini && cp -av paste.ini paste_local.ini' \
+&& sudo -u mediagoblin perl -pi -e 's|.*sql_engine = .*|sql_engine = sqlite:////var/lib/mediagoblin/mediagoblin.db|' mediagoblin_local.ini \
 #
 # Video plugin
 #
-&& echo '[[mediagoblin.media_types.video]]' | tee -a mediagoblin_local.ini \
+&& cd /srv/mediagoblin.example.org/mediagoblin && echo '[[mediagoblin.media_types.video]]' | sudo -u mediagoblin tee -a mediagoblin_local.ini \
 #
 # Audio plugin
 #
-&& echo '[[mediagoblin.media_types.audio]]' | tee -a mediagoblin_local.ini \
-&& bin/pip install scikits.audiolab \
+&& cd /srv/mediagoblin.example.org/mediagoblin && echo '[[mediagoblin.media_types.audio]]' | sudo -u mediagoblin tee -a mediagoblin_local.ini \
+&& cd /srv/mediagoblin.example.org/mediagoblin && sudo -u mediagoblin bin/pip install scikits.audiolab \
 #
 # PDF plugin
 #
-&& echo '[[mediagoblin.media_types.pdf]]' | tee -a mediagoblin_local.ini \
+&& cd /srv/mediagoblin.example.org/mediagoblin && echo '[[mediagoblin.media_types.pdf]]' | sudo -u mediagoblin tee -a mediagoblin_local.ini \
 # cleanup
-&& chown -R mediagoblin. /srv/mediagoblin.example.org \
 && echo 'ALL ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 #
 
