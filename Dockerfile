@@ -16,7 +16,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 #FROM debian:jessie
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 RUN apt-get update \
 && apt-get install -y git-core python python-dev python-lxml python-imaging python-virtualenv npm nodejs-legacy automake nginx \
 && apt-get install -y sudo \
