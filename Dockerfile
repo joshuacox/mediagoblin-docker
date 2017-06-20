@@ -57,7 +57,7 @@ RUN apt-get update \
 && sudo -u mediagoblin ./bootstrap.sh \
 && sudo -u mediagoblin ./configure –with-python3 \
 && sudo -u mediagoblin make \
-&& sudo -u mediagoblin bin/easy_install flup \
+&& sudo -u mediagoblin bin/easy_install flup==1.0.3.dev-20110405 \
 && sudo -u mediagoblin ln -s /var/lib/mediagoblin user_dev \
 && sudo -u mediagoblin bash -c 'cp -av mediagoblin.ini mediagoblin_local.ini && cp -av paste.ini paste_local.ini' \
 && sudo -u mediagoblin perl -pi -e 's|.*sql_engine = .*|sql_engine = sqlite:////var/lib/mediagoblin/mediagoblin.db|' mediagoblin_local.ini \
